@@ -11,12 +11,22 @@ jobs:
         run: ci/build-app.sh
       - name: Test application
         run: ci/unit-test-app.sh
-  lint:
+      - name: Upload repo
+        uses: actions/upload-artifact@v4
+        with: 
+          name: code
+          path: .
+          include-hidden-files: true
+  Linting:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Download code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Super-linter
-        uses: super-linter/super-linter@v8.5.0
+      - name: run linting
+        uses: super-linter/super-linter/slim@v7
+        env:
+          # To report GitHub Actions status checks
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
