@@ -50,3 +50,14 @@ jobs:
         run: bash ci/build-docker.sh
       - name: push docker
         run: bash ci/push-docker.sh
+  Component-test:
+    runs-on: ubuntu-latest
+    steps:
+      name: Execute component test
+      run: bash ci/component-test.sh
+  Performance-test:
+    run-on: ubuntu-latest
+    needs: [Build]
+    steps:
+      name: Execute performance tests
+      run: bash ci/performance-test.sh
